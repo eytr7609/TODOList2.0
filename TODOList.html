@@ -1,0 +1,91 @@
+<!doctype html>
+<html ng-app="myAppName">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+	<title>任務</title>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+	<link rel="stylesheet" type="text/css" href="styleSetting.css">
+	
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+	<!-- Angular Material Library -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+	
+	<script src="ctrl.js"></script>
+</head>
+<body>
+	
+	<div class="buttondemoBasicUsage toolbardemoScrollShrink" ng-controller="taskCtrl" ng-init="all=true;finished=false">
+		<section layout="column">
+			<h2>我的任務清單</h2>
+	
+			<div layout="row">
+				<div flex="40">
+					<md-input-container md-no-float="" class="md-block">
+						<input ng-model="pTask" placeholder="任務內容">
+					</md-input-container>
+				</div>
+				<div flex flex-offset="10" style="padding-top: 15px">
+					<md-datepicker ng-model="pDate" md-placeholder="截止日" md-open-on-focus></md-datepicker>
+				</div>
+			</div>
+			<div layout="row">
+				<div flex="70">
+					<md-button class="md-raised" ng-click="add()">新增任務</md-button>
+				</div>
+				<div>
+					<md-button class="md-raised" ng-click="delete()">清除已完成任務</md-button>
+				</div>
+			</div>
+			<div layout="row">
+				<md-button class="groupX left" ng-click="sortBy('task')">內容</md-button>
+				<md-button class="groupX right" ng-click="sortBy('date')">時間</md-button>
+				
+				<md-button class="groupX left" ng-click="finished=false;all=false">未完成</md-button>
+				<md-button class="groupX middle" ng-click="finished=true;all=false">已完成</md-button>
+				<md-button class="groupX right" ng-click="all=true">全部</md-button>
+			</div>
+		</section>
+		<section layout="column">
+			<div layout="row">
+				<div flex-offset="70">任務截止日</div>
+			</div>
+			<md-content layout-padding class="listOverflow">
+			<div layout="row" ng-repeat="list in lists" ng-show="finished&&list.done||!finished&&!list.done||all">
+				<div flex="70" class="md-padding dialogdemoBasicUsage dialog-demo-content}" style="padding-top:15px;padding-left:15px">
+					<md-checkbox ng-model="list.done" ng-click="click()"></md-checkbox>
+					<span class="done-{{list.done}}" ng-click="showDialog($event,$index)" ng-cloak="">{{ list.task }}</span> 
+				</div>
+				<div>
+					<span class="done-{{list.done}}">{{ list.date }}</span>
+					<md-button aria-label="&times;" style="min-width: 20px" ng-click="remove($index);">&times;</md-button>
+				</div>
+			</div>
+			</md-content>
+			<span>未完成: {{remaining()}}, 已完成: {{lists.length-remaining()}}, 總數: {{lists.length || '0'}}</span>
+		</section>
+	</div>
+	<script type="text/ng-template" id="dialog1.tmpl.html">
+	<md-dialog>
+		<md-dialog-actions layout="column">
+		<div style="padding-top: 15px">
+			<md-input-container md-no-float="" class="md-block">
+				<input ng-model="mTask" placeholder='更改內容'>
+			</md-input-container>
+		</div>
+		<div style="padding-bottom: 10px">
+			<md-datepicker ng-model="mDate" md-placeholder="更改日期" md-open-on-focus></md-datepicker>
+		</div>
+		<div>
+			<md-button ng-click="answer(['no','no'])">取消</md-button>
+			<md-button ng-click="answer(['yes','yes'])">確認</md-button>
+		<div>
+		</md-dialog-actions>
+	</md-dialog>
+	</script>
+</body>
+</html>
