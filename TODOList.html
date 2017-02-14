@@ -52,16 +52,17 @@
 		</section>
 		<section layout="column">
 			<div layout="row">
-				<div flex-offset="70">任務截止日</div>
+				<div flex-offset="66">任務截止日</div>
 			</div>
-			<md-content layout-padding class="listOverflow">
+			<md-content class="listOverflow">
 			<div layout="row" ng-repeat="list in lists" ng-show="finished&&list.done||!finished&&!list.done||all">
-				<div flex="70" class="md-padding dialogdemoBasicUsage dialog-demo-content}" style="padding-top:15px;padding-left:15px">
+				<div flex="66" class="md-padding dialogdemoBasicUsage dialog-demo-content}" style="padding-top:15px;padding-left:15px">
 					<md-checkbox ng-model="list.done" ng-click="click()"></md-checkbox>
-					<span class="done-{{list.done}}" ng-click="showDialog($event,$index)" ng-cloak="">{{ list.task }}</span> 
+					<span class="done-{{list.done}}" ng-cloak="">{{ list.task }}</span>
 				</div>
 				<div>
 					<span class="done-{{list.done}}">{{ list.date }}</span>
+					<md-button aria-label="/" style="min-width: 20px" ng-click="showDialog($event,$index);">/</md-button>
 					<md-button aria-label="&times;" style="min-width: 20px" ng-click="remove($index);">&times;</md-button>
 				</div>
 			</div>

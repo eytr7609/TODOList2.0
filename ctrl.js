@@ -72,7 +72,7 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 	}
 	
 	$scope.showDialog = function(ev,index) {
-		if(ev.currentTarget.className!="done-true"){
+		if(ev.currentTarget.previousElementSibling.className!="done-true"){
 			$mdDialog.show({
 			  controller: DialogController,
 			  templateUrl: 'dialog1.tmpl.html',
@@ -89,7 +89,6 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 					$scope.lists[index].date = answer[1];
 				}
 				}, function() {
-					var aa = 'adsfa';
 			});
 		}  
 	};  
