@@ -8,7 +8,6 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 		if ($scope.pTask && $scope.pDate){
 				$scope.lists.push({
 				task: $scope.pTask,
-				//date: $filter('date')($scope.pDate, 'yyyy-MM-dd'),
 				dateNO: $scope.pDate,
 				checked: false
 			});
@@ -65,7 +64,7 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 				answer[0] = $scope.mTask;
 			}
 			if ($scope.mDate){
-				answer[1] = $scope.mDate;//$filter('date')($scope.mDate,'yyyy-MM-dd');
+				answer[1] = $scope.mDate;
 			}
 		}
 		$mdDialog.hide(answer);
