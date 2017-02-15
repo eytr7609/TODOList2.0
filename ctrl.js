@@ -3,7 +3,7 @@ var myAppName = angular.module('myAppName', ['ngMaterial','ngMessages']);
 myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 	$scope.lists = [];
 	$scope.pTask = '';
-	
+
 	$scope.add = function(){
 		if ($scope.pTask && $scope.pDate){
 				$scope.lists.push({
@@ -64,7 +64,7 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 				answer[0] = $scope.mTask;
 			}
 			if ($scope.mDate){
-				answer[1] = $filter('date')($scope.mDate, 'yyyy-MM-dd');
+				answer[1] = $filter('date')($scope.mDate,'yyyy-MM-dd');
 			}
 		}
 		$mdDialog.hide(answer);
@@ -93,3 +93,28 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 		}  
 	};  
 });
+
+myAppName.config(function($mdDateLocaleProvider) {
+	$mdDateLocaleProvider.months = ['一月', '二月', '三月', '四月', '五月', '六月', 
+										'七月', '八月', '九月', '十月', '十一月', '十二月'];
+	$mdDateLocaleProvider.shortMonths = ['一月', '二月', '三月', '四月', '五月', '六月', 
+										'七月', '八月', '九月', '十月', '十一月', '十二月'];
+	$mdDateLocaleProvider.days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+	$mdDateLocaleProvider.shortDays = ['日', '一', '二', '三', '四', '五','六'];
+	//$mdDateLocaleProvider.firstDayOfWeek = 0;
+	$mdDateLocaleProvider.weekNumberFormatter = function(weekNumber) {
+		return '週 ' + weekNumber;
+	};
+	$mdDateLocaleProvider.formatDate = function(date) {
+		if (date) {
+			return moment(date).format('YYYY-MM-DD');
+		}
+		else {
+			return null;
+		}
+	};
+	$mdDateLocaleProvider.msgCalendar = '日曆';
+	$mdDateLocaleProvider.msgOpenCalendar = '打開日曆';
+});
+
+
