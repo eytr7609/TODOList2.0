@@ -8,7 +8,8 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 		if ($scope.pTask && $scope.pDate){
 				$scope.lists.push({
 				task: $scope.pTask,
-				date: $filter('date')($scope.pDate, 'yyyy-MM-dd'),
+				//date: $filter('date')($scope.pDate, 'yyyy-MM-dd'),
+				dateNO: $scope.pDate,
 				checked: false
 			});
 			$scope.pTask = '';
@@ -64,7 +65,7 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 				answer[0] = $scope.mTask;
 			}
 			if ($scope.mDate){
-				answer[1] = $filter('date')($scope.mDate,'yyyy-MM-dd');
+				answer[1] = $scope.mDate;//$filter('date')($scope.mDate,'yyyy-MM-dd');
 			}
 		}
 		$mdDialog.hide(answer);
@@ -74,23 +75,47 @@ myAppName.controller('taskCtrl', function($scope,$filter,$mdDialog){
 	$scope.showDialog = function(ev,index) {
 		if(ev.currentTarget.previousElementSibling.className!="done-true"){
 			$mdDialog.show({
+			  scope: $scope,
+			  preserveScope: true,
 			  controller: DialogController,
-			  templateUrl: 'dialog1.tmpl.html',
 			  parent: angular.element(document.body),
 			  targetEvent: ev,
 			  clickOutsideToClose:false,
-			  fullscreen: $scope.customFullscreen
+			  template:
+				  '<md-dialog>' +
+				  '<md-dialog-actions layout="column">' +
+				  '<div style="padding-top: 15px">' +
+				  '<md-input-container md-no-float="" class="md-block">' +
+				  '<input ng-model="mTask" placeholder="{{ mTask }}">' + 
+				  '</md-input-container>' +
+				  '</div>' +
+				  '<div style="padding-bottom: 10px">' +
+				  '<md-datepicker ng-model="mDate" md-placeholder="{{ mDate }}" md-open-on-focus></md-datepicker>' +
+				  '</div>' +
+				  '<div>' +
+				  '<md-button ng-click="answer([' + "'no'" + ',' + "'no'" + '])">取消</md-button>' +
+				  '<md-button ng-click="answer([' + "'yes'" + ',' + "'yes'" + '])">確認</md-button>' +
+				  '<div>' +
+				  '</md-dialog-actions>' +
+				  '</md-dialog>' ,
+			  fullscreen: $scope.customFullscreen,
+			  bindToController: true,
+			  locals: { mTask: $scope.lists[index].task,
+						mDate: $scope.dateNO
+						}
 			})
 			.then(function(answer) {
 				if (answer[0] != 'yes' && answer[0] != 'no') {
 					$scope.lists[index].task = answer[0];
 				}
 				if (answer[1] != 'yes' && answer[1] != 'no') {
-					$scope.lists[index].date = answer[1];
+					$scope.lists[index].dateNO = answer[1];
 				}
 				}, function() {
 			});
-		}  
+		}
+		$scope.mTask = $scope.lists[index].task;
+		$scope.mDate = $scope.lists[index].dateNO;
 	};  
 });
 
